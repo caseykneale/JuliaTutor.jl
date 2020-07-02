@@ -33,12 +33,12 @@ module JuliaTutor
     function request_read_evaluate(request, answer)
         print( Crayon( foreground = :red, bold = true ),
                  "> ")
-        println( Crayon( foreground = :white, bold = true ),
+        println( Crayon( foreground = :white, bold = false ),
                  request )
         println(" ")
         correct = false
         while !correct
-            print( Crayon( foreground = :green ), "> ")
+            print( Crayon( foreground = :green, italics = false ), "> ")
             userinput = readline()
             userinput = strip_whitespace(userinput)
             exit_attempt(userinput) && exit()
