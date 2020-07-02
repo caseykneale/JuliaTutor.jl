@@ -3,6 +3,9 @@ uuid = "75827d1f-33a1-4120-bbaf-a4a04206c74a"
 authors = ["caseykneale"]
 version = "0.1.0"
 
+[deps]
+Crayons = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+
 [compat]
 julia = "1.4"
 

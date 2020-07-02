@@ -1,2 +1,6 @@
 # This file is machine-generated - editing it directly is not advised
 
+[[Crayons]]
+git-tree-sha1 = "c437a9c2114c7ba19322712e58942b383ffbd6c0"
+uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
+version = "4.0.3"
