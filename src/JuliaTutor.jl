@@ -17,19 +17,27 @@ module JuliaTutor
         exit_attempt(userinput) && exit()
     end
 
-    function evaluate(ui, ans)::Tuple{ Bool, Bool }
+    function evaluate(ui, var, ans)::Tuple{ Bool, Bool }
         #try to run the users code
-        syntax_error,incorrect_answer = false, false;
+        syntax_error, incorrect_answer = false, false;
+        ui_ex = Meta.parse(ui)
         try
-            eval(ui)
+            eval(ui_ex)
         catch
             syntax_error = true;
         end
-        incorrect_answer = !(ui == ans)
+        # check whether the variable is defined
+        try
+            eval(var)
+        catch
+            incorrect_answer = true;
+        end
+        # if defined check whether it is set to the correct answer
+        !incorrect_answer && (incorrect_answer = !(eval(var) == ans))
         return (syntax_error, incorrect_answer)
     end
 
-    function request_read_evaluate(request, answer)
+    function request_read_evaluate(request, var, answer)
         print( Crayon( foreground = :red, bold = true ),
                  "> ")
         println( Crayon( foreground = :white, bold = true ),
@@ -40,7 +48,7 @@ module JuliaTutor
             print( Crayon( foreground = :green ), "> ")
             userinput = readline()
             exit_attempt(userinput) && exit()
-            (syntax_error, incorrect_answer) = evaluate(userinput, answer)
+            (syntax_error, incorrect_answer) = evaluate(userinput, var, answer)
             if syntax_error
                 println(Crayon( foreground = :white, italics = true ),
                         "Sorry it appears there is a syntax error in your code.")
