@@ -5,6 +5,7 @@ module JuliaTutor
                     Here you can learn interactively through pre-made lessons.")
 
     exit_attempt(ui) = lowercase(ui[1:min(4,length(ui))]) == "exit"
+    strip_whitespace(ui) = filter(x -> !isspace(x), ui)
 
     function inform(query)
         println( Crayon(foreground = :blue, bold = true),
@@ -21,7 +22,7 @@ module JuliaTutor
         #try to run the users code
         syntax_error,incorrect_answer = false, false;
         try
-            eval(ui)
+            println( include_string( Base, ui ) )
         catch
             syntax_error = true;
         end
@@ -39,6 +40,7 @@ module JuliaTutor
         while !correct
             print( Crayon( foreground = :green ), "> ")
             userinput = readline()
+            userinput = strip_whitespace(userinput)
             exit_attempt(userinput) && exit()
             (syntax_error, incorrect_answer) = evaluate(userinput, answer)
             if syntax_error
