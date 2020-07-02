@@ -33,7 +33,7 @@ module JuliaTutor
             incorrect_answer = true;
         end
         # if defined check whether it is set to the correct answer
-        !incorrect_answer && (incorrect_answer = !(eval(var) == ans))
+        !incorrect_answer && (incorrect_answer = !(eval(var) === ans))
         return (syntax_error, incorrect_answer)
     end
 
