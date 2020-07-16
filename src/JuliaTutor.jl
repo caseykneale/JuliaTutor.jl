@@ -40,7 +40,7 @@ module JuliaTutor
         while !correct
             print( Crayon( foreground = :green, italics = false ), "> ")
             userinput = readline()
-            userinput = strip_whitespace(userinput)
+            #userinput = strip_whitespace(userinput)
             exit_attempt(userinput) && exit()
             (syntax_error, incorrect_answer) = evaluate(userinput, answer)
             if syntax_error
