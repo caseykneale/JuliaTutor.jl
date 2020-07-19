@@ -23,7 +23,8 @@ menu()
  - Create a package an end user can Pkg.add("JuliaTutor")
  - The package will display a menu of "lesson plans" when the user executes `menu()`
  - Those lesson plans will hold a new users hand as they learn the language.
- - Although advanced lessons could be placed in here, it's pretty out of scope. Topics like:
+ - Although advanced lessons could be placed in here, it's pretty out of scope.
+ - Novice level topics like:
    - Hello World (+ pipes + basic string concatenation).
    - Loading packages(import vs using, etc)?
    - Defining vectors/matrices (+ broadcast operations)
