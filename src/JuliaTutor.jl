@@ -18,6 +18,12 @@ module JuliaTutor
     export greet, inform, request_read_evaluate, evaluate
 
     #Construct main menu.
+    """
+        menu()
+
+    Greets an end user, but then prompts them to select a lesson plan from /Lessons/
+    Once a lesson is selected(by entering a numerical value) it will load that lesson and begin.
+    """
     function menu()
         greet()
         menu_statement = """Please enter the numeral for lesson plan you would like to take part in.
