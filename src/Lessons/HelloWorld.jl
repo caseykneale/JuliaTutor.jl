@@ -1,8 +1,6 @@
-using Pkg
-Pkg.activate("JuliaTutor")
-using JuliaTutor
-
-JuliaTutor.greet()
+# using Pkg
+# Pkg.activate("JuliaTutor")
+# using JuliaTutor
 
 """Welcome to your first day of class. Today we'll be doing a classic
 excercise. We will be learning how to print text to our console. Along
