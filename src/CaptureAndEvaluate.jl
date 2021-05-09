@@ -45,7 +45,6 @@ macro capture_stdstreams(expr)
     end
 end
 
-strip_whitespace(ui) = filter(x -> !isspace(x), ui)
 
 function evaluate(ui, var, ans)::Tuple{ Bool, Bool }
     #try to run the users code

@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 Crayons = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+ReplMaker = "b873ce64-0db9-51f5-a568-4457d8e49576"
 
 [compat]
 Crayons = "4.0"

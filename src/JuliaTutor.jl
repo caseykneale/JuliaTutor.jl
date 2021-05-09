@@ -1,13 +1,18 @@
 module JuliaTutor
-    using Crayons, Logging
-
+    using Crayons, Logging, ReplMaker
     #Handle lesson plans
     global LESSON_PATH = Base.joinpath( @__DIR__ ,  "Lessons" )
     lessons_available = readdir( LESSON_PATH )
     numbered_lessons = enumerate( lessons_available )
 
     #See if our user is trying to exit julia.
-    exit_attempt(ui) = lowercase(ui[1:min(4,length(ui))]) == "exit"
+    strip_whitespace(ui) = filter(x -> !isspace(x), ui)
+
+    function exit_attempt(ui)
+        ui = strip_whitespace(ui)
+        str_length = min(4, length(ui)) 
+        return lowercase(ui[1:str_length]) == "exit"
+    end
 
     #Internal to JuliaTutor
     include("CrayonBox.jl")
@@ -26,7 +31,7 @@ module JuliaTutor
     """
     function menu()
         greet()
-        menu_statement = """Please enter the numeral for lesson plan you would like to take part in.
+        menu_statement = """Please enter the numeral for lesson plan you want to do.
         Note: you can type \"exit\" and press enter at any time to exit this Julia session and JuliaTutor."""
         println( red_bold(), "> ", white_bold(), menu_statement )
         println.( "\t" .* join.( numbered_lessons, ") " ) )
