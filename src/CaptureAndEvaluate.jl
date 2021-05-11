@@ -45,7 +45,6 @@ macro capture_stdstreams(expr)
     end
 end
 
-
 function evaluate(ui, var, ans)::Tuple{ Bool, Bool }
     #try to run the users code
     syntax_error, incorrect_answer = false, false;

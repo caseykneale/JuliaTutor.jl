@@ -1,11 +1,13 @@
 module JuliaTutor
-    using Crayons, Logging, ReplMaker
+    using Crayons, Logging, ReplMaker, DataStructures
     #Handle lesson plans
     global LESSON_PATH = Base.joinpath( @__DIR__ ,  "Lessons" )
     lessons_available = readdir( LESSON_PATH )
     numbered_lessons = enumerate( lessons_available )
 
-    #See if our user is trying to exit julia.
+    #Parsing functions for the menu system
+    #TODO: Make the menu system part of the replmake parser?...
+    #or use some nice CLI package
     strip_whitespace(ui) = filter(x -> !isspace(x), ui)
 
     function exit_attempt(ui)
@@ -17,10 +19,35 @@ module JuliaTutor
     #Internal to JuliaTutor
     include("CrayonBox.jl")
     include("CaptureAndEvaluate.jl")
-    #External to JuliaTutor IE user facing
-    include("Prompts.jl")
+    #External to JuliaTutor IE user facing    
+    include("Evaluators.jl")
+    #export user_experience, Evaluator, ExpressionEvaluator, CommandEvaluator
+    include("Tutor.jl")
+    #export Lesson, Tutor, display_prompt_and_request
+    include("Display.jl")
+    #export greet, inform, request
+    global julia_tutor_parser = Tutor("",0,[])
 
-    export greet, inform, request_read_evaluate, evaluate
+    function load_lesson(lesson_location::String)
+        include( lesson_location )
+
+        if length(lesson_plan) == 0
+            println("The lesson you have attempted to load is lacking a valid `lesson_plan` variable.")
+            return nothing
+        end
+
+        global julia_tutor_parser = Tutor( lesson_location, 0, lesson_plan )
+        
+        initrepl(
+            julia_tutor_parser, 
+            prompt_text="julia tutor> ",
+            prompt_color = :yellow, 
+            start_key=')', 
+            mode_name="tutor_mode",
+            valid_input_checker=complete_julia
+        )
+    end
+    export load_lesson
 
     #Construct main menu.
     """
@@ -35,7 +62,7 @@ module JuliaTutor
         Note: you can type \"exit\" and press enter at any time to exit this Julia session and JuliaTutor."""
         println( red_bold(), "> ", white_bold(), menu_statement )
         println.( "\t" .* join.( numbered_lessons, ") " ) )
-        lesson_to_load = Dict( first.( numbered_lessons ) .=> last.( numbered_lessons ) )
+        lesson_to_load = OrderedDict( first.( numbered_lessons ) .=> last.( numbered_lessons ) )
         valid = false
         input = 0
         while !valid
@@ -44,15 +71,15 @@ module JuliaTutor
             userinput = strip_whitespace( userinput )
             exit_attempt(userinput) && exit()
             numeral = tryparse(Int, userinput)
-            if ( ( numeral == "" ) || !haskey( lesson_to_load, numeral ) )
-                println( red_italics(), "🔧 Sorry it appears the requested lesson is invalid.")
+            if ( numeral == "" ) || !haskey( lesson_to_load, numeral )
+                println( red_italics(), "🔧 Sorry it appears the requested lesson was not valid.")
             else
                 valid = true
                 input = numeral
                 break
             end
         end
-        include( Base.joinpath( LESSON_PATH, lessons_available[ input ] ) )
+        load_lesson( Base.joinpath( LESSON_PATH, lessons_available[ input ] ) )
     end
     export menu
 
