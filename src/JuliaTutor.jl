@@ -1,10 +1,10 @@
 module JuliaTutor
-    using Crayons, Logging, ReplMaker, DataStructures
+    using Crayons, Logging, ReplMaker, DataStructures, TerminalMenus
+
     #Handle lesson plans
     global LESSON_PATH = Base.joinpath( @__DIR__ ,  "Lessons" )
     lessons_available = readdir( LESSON_PATH )
-    numbered_lessons = enumerate( lessons_available )
-
+    
     #Parsing functions for the menu system
     #TODO: Make the menu system part of the replmake parser?...
     #or use some nice CLI package
@@ -31,15 +31,18 @@ module JuliaTutor
     function load_lesson(lesson_location::String)
         include( lesson_location )
 
-        if length(lesson_plan) == 0
+
+        if !@isdefined(lesson_plan) || (length(lesson_plan) == 0)
             println("The lesson you have attempted to load is lacking a valid `lesson_plan` variable.")
             return nothing
         end
 
         global julia_tutor_parser = Tutor( lesson_location, 0, lesson_plan )
         
+        parser_closure(str) = julia_tutor_parser(str) 
+
         initrepl(
-            julia_tutor_parser, 
+            parser_closure,#julia_tutor_parser, 
             prompt_text="julia tutor> ",
             prompt_color = :yellow, 
             start_key=')', 
@@ -61,25 +64,10 @@ module JuliaTutor
         menu_statement = """Please enter the numeral for lesson plan you want to do.
         Note: you can type \"exit\" and press enter at any time to exit this Julia session and JuliaTutor."""
         println( red_bold(), "> ", white_bold(), menu_statement )
-        println.( "\t" .* join.( numbered_lessons, ") " ) )
-        lesson_to_load = OrderedDict( first.( numbered_lessons ) .=> last.( numbered_lessons ) )
-        valid = false
-        input = 0
-        while !valid
-            print( Crayon( foreground = :green, italics = false ), "> " )
-            userinput = readline()
-            userinput = strip_whitespace( userinput )
-            exit_attempt(userinput) && exit()
-            numeral = tryparse(Int, userinput)
-            if ( numeral == "" ) || !haskey( lesson_to_load, numeral )
-                println( red_italics(), "🔧 Sorry it appears the requested lesson was not valid.")
-            else
-                valid = true
-                input = numeral
-                break
-            end
-        end
-        load_lesson( Base.joinpath( LESSON_PATH, lessons_available[ input ] ) )
+        menut = RadioMenu( lessons_available, pagesize = 7)
+        choice = TerminalMenus.request("", menut)
+
+        load_lesson( Base.joinpath( LESSON_PATH, lessons_available[choice] ) )
     end
     export menu
 

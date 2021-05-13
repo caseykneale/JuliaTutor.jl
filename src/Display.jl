@@ -11,7 +11,6 @@ function inform(query)
              Crayon(foreground = :white, bold = false), query)
 end
 
-
 function request(request)
     print( Crayon( foreground = :red, bold = true ), "> " )
     println( Crayon( foreground = :white, bold = false ), request, "\n" )

@@ -1,5 +1,10 @@
 using Pkg
-Pkg.activate("JuliaTutor")
+Pkg.activate(".")
+# #Pkg.activate("JuliaTutor")
 using JuliaTutor
 
 menu()
+
+
+
+

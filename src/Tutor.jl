@@ -16,7 +16,7 @@ function display_prompt_and_request(t::Tutor)
     request(active_lesson)
 end
 
-function ( t::Tutor )( user_input::String ) 
+function ( t::Tutor )( user_input::String )
     #TODO: Add cmd's for redisplaying prompt, clearing repl screen, hints?
     active_lesson = t.lesson_plan[ t.current_lesson ]
     if active_lesson.parser( user_input )
@@ -26,3 +26,4 @@ function ( t::Tutor )( user_input::String )
         #do nothing?
     end
 end
+
