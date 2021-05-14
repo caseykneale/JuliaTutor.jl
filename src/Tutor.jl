@@ -25,6 +25,7 @@ function ( t::Tutor )( user_input::String )
             display_prompt_and_request( t )
         else
             println("Congratulations! You've completed this lesson.")
+            menu()
         end
     else 
         #do nothing?

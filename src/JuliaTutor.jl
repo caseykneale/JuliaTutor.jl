@@ -4,18 +4,8 @@ module JuliaTutor
     #Handle lesson plans
     global LESSON_PATH = Base.joinpath( @__DIR__ ,  "Lessons" )
     lessons_available = readdir( LESSON_PATH )
+    push!(lessons_available, "Exit Julia Tutor") #provide an easy way out
     
-    #Parsing functions for the menu system
-    #TODO: Make the menu system part of the replmake parser?...
-    #or use some nice CLI package
-    strip_whitespace(ui) = filter(x -> !isspace(x), ui)
-
-    function exit_attempt(ui)
-        ui = strip_whitespace(ui)
-        str_length = min(4, length(ui)) 
-        return lowercase(ui[1:str_length]) == "exit"
-    end
-
     #Internal to JuliaTutor
     include("CrayonBox.jl")
     include("CaptureAndEvaluate.jl")
@@ -41,7 +31,7 @@ module JuliaTutor
         parser_closure(str) = julia_tutor_parser(str) 
 
         initrepl(
-            parser_closure,#julia_tutor_parser, 
+            parser_closure,
             prompt_text="julia tutor> ",
             prompt_color = :yellow, 
             start_key=')', 
@@ -63,12 +53,15 @@ module JuliaTutor
     function menu()
         greet()
         menu_statement = """Please enter the numeral for lesson plan you want to do.
-        Note: you can type \"exit\" and press enter at any time to exit this Julia session and JuliaTutor."""
+        Note: you can type \"exit()\" and press enter at any time to exit this Julia session and JuliaTutor."""
         println( red_bold(), "> ", white_bold(), menu_statement )
         menut = RadioMenu( lessons_available, pagesize = 7)
-        choice = TerminalMenus.request("", menut)
-
-        load_lesson( Base.joinpath( LESSON_PATH, lessons_available[choice] ) )
+        choice = lessons_available[ TerminalMenus.request( "", menut ) ]
+        if choice == "Exit Julia Tutor"
+            exit()
+        else
+            load_lesson( Base.joinpath( LESSON_PATH, choice ) )
+        end
     end
     export menu
 

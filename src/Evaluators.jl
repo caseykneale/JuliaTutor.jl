@@ -4,8 +4,10 @@ function user_experience(syntax_error, incorrect_answer)
     elseif incorrect_answer
         println(Crayon( foreground = :white, italics = true ), "⅁ Good try but, this isn't the answer we are looking for. Please try again.")
     end
-    println(Crayon( foreground = :blue, italics = true ), "✔ Good job!" )
     correct = !syntax_error && !incorrect_answer
+    if correct
+        println(Crayon( foreground = :blue, italics = true ), "✔ Good job!" )
+    end
     return correct
 end
 
