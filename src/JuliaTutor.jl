@@ -16,6 +16,7 @@ module JuliaTutor
     #export Lesson, Tutor, display_prompt_and_request
     include("Display.jl")
     #export greet, inform, request
+    export help
     global julia_tutor_parser = Tutor("",0,[])
 
     function load_lesson(lesson_location::String)
@@ -31,7 +32,7 @@ module JuliaTutor
         parser_closure(str) = julia_tutor_parser(str) 
 
         global repl = initrepl(
-            parser_closure,
+            parser_closure, #ReplMaker doesn't allow functors
             prompt_text="julia tutor> ",
             prompt_color = :yellow, 
             start_key=')', 

@@ -15,3 +15,9 @@ function request(lesson::Lesson)
     print( Crayon( foreground = :red, bold = true ), "> " )
     println( Crayon( foreground = :white, bold = false ), lesson.request, "\n" )
 end
+
+function help()
+    println( "Enter `)` to exit or enter the tutor REPL." )
+    println( "Ctrl + `c` will also exit the tutor REPL." )
+    println( "Ctrl + `d` will end the REPL instance." )
+end
