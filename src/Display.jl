@@ -6,12 +6,12 @@ greet() = println("Hi my name is JuliaTutor, \n
 
 A convenience function to display long blocks to text to an end user.
 """
-function inform(query)
+function inform(lesson::Lesson)
     println( Crayon(foreground = :blue, bold = true), "> ",
-             Crayon(foreground = :white, bold = false), query)
+             Crayon(foreground = :white, bold = false), lesson.prompt)
 end
 
-function request(request)
+function request(lesson::Lesson)
     print( Crayon( foreground = :red, bold = true ), "> " )
-    println( Crayon( foreground = :white, bold = false ), request, "\n" )
+    println( Crayon( foreground = :white, bold = false ), lesson.request, "\n" )
 end

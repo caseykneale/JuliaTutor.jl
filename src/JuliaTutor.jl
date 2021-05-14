@@ -31,13 +31,12 @@ module JuliaTutor
     function load_lesson(lesson_location::String)
         include( lesson_location )
 
-
         if !@isdefined(lesson_plan) || (length(lesson_plan) == 0)
             println("The lesson you have attempted to load is lacking a valid `lesson_plan` variable.")
             return nothing
         end
 
-        global julia_tutor_parser = Tutor( lesson_location, 0, lesson_plan )
+        global julia_tutor_parser = Tutor( lesson_location, 1, lesson_plan )
         
         parser_closure(str) = julia_tutor_parser(str) 
 
@@ -49,6 +48,8 @@ module JuliaTutor
             mode_name="tutor_mode",
             valid_input_checker=complete_julia
         )
+
+        display_prompt_and_request(julia_tutor_parser)
     end
     export load_lesson
 
