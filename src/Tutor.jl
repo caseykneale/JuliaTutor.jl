@@ -24,7 +24,9 @@ function ( t::Tutor )( user_input::String )
             t.current_lesson += 1
             display_prompt_and_request( t )
         else
-            println("Congratulations! You've completed this lesson.")
+            println( Crayon(foreground = :green, bold = true),
+                    "\n Congratulations! \n You've completed this lesson. Care to try another? \n \n")
+            print(Crayon( foreground = :white, bold = false), "" )
             menu()
         end
     else 

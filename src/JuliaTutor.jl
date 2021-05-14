@@ -1,6 +1,6 @@
 module JuliaTutor
     using Crayons, Logging, ReplMaker, DataStructures, TerminalMenus
-
+    global repl = nothing
     #Handle lesson plans
     global LESSON_PATH = Base.joinpath( @__DIR__ ,  "Lessons" )
     lessons_available = readdir( LESSON_PATH )
@@ -30,7 +30,7 @@ module JuliaTutor
         
         parser_closure(str) = julia_tutor_parser(str) 
 
-        initrepl(
+        global repl = initrepl(
             parser_closure,
             prompt_text="julia tutor> ",
             prompt_color = :yellow, 
@@ -38,7 +38,8 @@ module JuliaTutor
             mode_name="tutor_mode",
             valid_input_checker=complete_julia
         )
-
+        # ReplMaker.enter_mode!("tutor_mode")
+        ReplMaker.enter_mode!(Base.active_repl.mistate, repl)
         display_prompt_and_request(julia_tutor_parser)
     end
     export load_lesson
