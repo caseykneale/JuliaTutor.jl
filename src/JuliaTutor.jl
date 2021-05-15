@@ -18,6 +18,9 @@ module JuliaTutor
     #export greet, inform, request
     export help
     global julia_tutor_parser = Tutor("",0,[])
+    export julia_tutor_parser
+
+    using REPL
 
     function load_lesson(lesson_location::String)
         include( lesson_location )
@@ -29,7 +32,13 @@ module JuliaTutor
 
         global julia_tutor_parser = Tutor( lesson_location, 1, lesson_plan )
         
-        parser_closure(str) = julia_tutor_parser(str) 
+        function parser_closure(str) 
+            io = IOBuffer()
+            io_context = IOContext( io, :limit => true, :displaysize => (7, 70))
+            show(io_context, "text/plain", Meta.eval(Meta.parse(str)) );
+            println( String( take!( io ) ) )
+            julia_tutor_parser(str)
+        end
 
         global repl = initrepl(
             parser_closure, #ReplMaker doesn't allow functors
@@ -39,8 +48,8 @@ module JuliaTutor
             mode_name="tutor_mode",
             valid_input_checker=complete_julia
         )
-        # ReplMaker.enter_mode!("tutor_mode")
         ReplMaker.enter_mode!(Base.active_repl.mistate, repl)
+                
         display_prompt_and_request(julia_tutor_parser)
     end
     export load_lesson

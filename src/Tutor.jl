@@ -30,7 +30,6 @@ function ( t::Tutor )( user_input::String )
     if keywords(user_input)
         return
     end
-    #@show Meta.parse(user_input)
     #TODO: Add cmd's for redisplaying prompt, clearing repl screen, hints?
     active_lesson = t.lesson_plan[ t.current_lesson ]
     if active_lesson.parser( user_input )
@@ -44,5 +43,5 @@ function ( t::Tutor )( user_input::String )
             menu()
         end
     end
-    return Meta.eval( Meta.parse(user_input) )
+    #return Meta.eval( Meta.parse(user_input) )
 end
