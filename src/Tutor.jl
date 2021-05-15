@@ -30,6 +30,7 @@ function ( t::Tutor )( user_input::String )
     if keywords(user_input)
         return
     end
+    #@show Meta.parse(user_input)
     #TODO: Add cmd's for redisplaying prompt, clearing repl screen, hints?
     active_lesson = t.lesson_plan[ t.current_lesson ]
     if active_lesson.parser( user_input )
@@ -38,11 +39,10 @@ function ( t::Tutor )( user_input::String )
             display_prompt_and_request( t )
         else
             println( Crayon(foreground = :green, bold = true),
-                    "\n Congratulations! \n You've completed this lesson. Care to try another? \n \n")
+                    "\n Congratulations! \n You've completed this lesson. Care to try another? \n")
             print(Crayon( foreground = :white, bold = false), "" )
             menu()
         end
     end
-    Meta.eval( Meta.parse(user_input) )
+    return Meta.eval( Meta.parse(user_input) )
 end
-

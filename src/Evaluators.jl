@@ -8,6 +8,7 @@ function user_experience(syntax_error, incorrect_answer)
     if correct
         println(Crayon( foreground = :blue, italics = true ), "✔ Good job!" )
     end
+    print(Crayon( foreground = :white, italics = false ))
     return correct
 end
 

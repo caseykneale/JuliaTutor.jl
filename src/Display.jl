@@ -7,13 +7,13 @@ greet() = println("Hi my name is JuliaTutor, \n
 A convenience function to display long blocks to text to an end user.
 """
 function inform(lesson::Lesson)
-    println( Crayon(foreground = :blue, bold = true), "> ",
+    print( Crayon(foreground = :blue, bold = true), "\n> ",
              Crayon(foreground = :white, bold = false), lesson.prompt)
 end
 
 function request(lesson::Lesson)
-    print( Crayon( foreground = :red, bold = true ), "> " )
-    println( Crayon( foreground = :white, bold = false ), lesson.request, "\n" )
+    print( Crayon( foreground = :red, bold = true ), "\n> " )
+    print( Crayon( foreground = :white, bold = false ), lesson.request )
 end
 
 function help()

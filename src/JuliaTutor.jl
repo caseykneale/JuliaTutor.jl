@@ -53,7 +53,6 @@ module JuliaTutor
     Once a lesson is selected(by entering a numerical value) it will load that lesson and begin.
     """
     function menu()
-        greet()
         menu_statement = """Please enter the numeral for lesson plan you want to do.
         Note: you can type \"exit()\" and press enter at any time to exit this Julia session and JuliaTutor."""
         println( red_bold(), "> ", white_bold(), menu_statement )
@@ -66,5 +65,6 @@ module JuliaTutor
         end
     end
     export menu
-
+    
+    greet()
 end # module
