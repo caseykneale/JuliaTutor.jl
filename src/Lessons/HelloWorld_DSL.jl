@@ -9,7 +9,9 @@ prompt_1 = ""*
 "Okay now it's your turn,\n"
 request_1 = "Define a string titled \'console_output\' to contain the text \"hello world\""
 evaluator_1 = ExpressionEvaluator(:console_output, "hello world")
-lesson_1 = Lesson( prompt_1, request_1, evaluator_1 )
+hint_1 = """Please ensure your solution is cases sensitive.
+IE: "HeLlO WoRlD" is not the same as "hello world". """
+lesson_1 = Lesson( prompt_1, request_1, evaluator_1, hint_1 )
 
 prompt_2 = ""*
 "Congratulations you have instantiated your first variable in Julia! How might we display this"*

@@ -2,7 +2,10 @@ struct Lesson
     prompt::String
     request::String
     parser::Evaluator
+    hint::String
 end
+
+Lesson(prompt::String, request::String, parser::Evaluator) = Lesson(prompt, request, parser, "")
 
 mutable struct Tutor
     lesson_path::String
@@ -16,20 +19,25 @@ function display_prompt_and_request(t::Tutor)
     request(active_lesson)
 end
 
-function keywords(user_input)
+function display_hint(t::Tutor)
+    active_lesson = t.lesson_plan[t.current_lesson]
+    hint(active_lesson)
+end
+
+function keywords(t, user_input)
     used_keyword = false
     #ToDo:: strip whitespace, add more keywords?
     if (user_input == "help") || (user_input == "help()")
         help()
+        used_keyword = true
+    elseif (user_input == "hint") || (user_input == "hint()")
+        display_hint( t )
         used_keyword = true
     end
     return used_keyword
 end
 
 function ( t::Tutor )( user_input::String )
-    if keywords(user_input)
-        return
-    end
     #TODO: Add cmd's for redisplaying prompt, clearing repl screen, hints?
     active_lesson = t.lesson_plan[ t.current_lesson ]
     if active_lesson.parser( user_input )

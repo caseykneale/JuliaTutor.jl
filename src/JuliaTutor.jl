@@ -20,8 +20,6 @@ module JuliaTutor
     global julia_tutor_parser = Tutor("",0,[])
     export julia_tutor_parser
 
-    using REPL
-
     function load_lesson(lesson_location::String)
         include( lesson_location )
 
@@ -32,12 +30,15 @@ module JuliaTutor
 
         global julia_tutor_parser = Tutor( lesson_location, 1, lesson_plan )
         
-        function parser_closure(str) 
+        function parser_closure(user_input)
+            if keywords(julia_tutor_parser, user_input)
+                return
+            end
             io = IOBuffer()
             io_context = IOContext( io, :limit => true, :displaysize => (7, 70))
-            show(io_context, "text/plain", Meta.eval(Meta.parse(str)) );
+            show(io_context, "text/plain", Meta.eval(Meta.parse(user_input)) );
             println( String( take!( io ) ) )
-            julia_tutor_parser(str)
+            julia_tutor_parser(user_input)
         end
 
         global repl = initrepl(
