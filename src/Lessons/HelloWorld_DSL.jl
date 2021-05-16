@@ -1,3 +1,5 @@
+#This file contains an Example Lesson plan for Julia tutor.
+
 prompt_1 = ""*
 "Welcome to your first day of class. Today we'll be doing a classic excercise. We will be learning "*
 "how to print text to our console. Along the way we'll cover some ways to handle strings in Julia."*
@@ -11,6 +13,8 @@ request_1 = "Define a string titled \'console_output\' to contain the text \"hel
 evaluator_1 = ExpressionEvaluator(:console_output, "hello world")
 hint_1 = """Please ensure your solution is cases sensitive.
 IE: "HeLlO WoRlD" is not the same as "hello world". """
+
+#These four items compose a single lesson instance.
 lesson_1 = Lesson( prompt_1, request_1, evaluator_1, hint_1 )
 
 prompt_2 = ""*
@@ -23,6 +27,9 @@ prompt_2 = ""*
 "print(console_output)\n"
 request_2 = "Print your \'console_output\' variable to the console using the `print()` function"
 evaluator_2 = CommandEvaluator("hello world")
+#Notice: we did not provide any hints for this excercise. Not nice, but either they get it,
+#or they don't. 
 lesson_2 = Lesson( prompt_2, request_2, evaluator_2 )
 
+#To create the lesson_plan (which is REQUIRED) we make an array of Lesson's.
 lesson_plan = [ lesson_1, lesson_2 ]
