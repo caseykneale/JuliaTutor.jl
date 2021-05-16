@@ -1,3 +1,9 @@
+"""
+    user_experience(syntax_error, incorrect_answer)::Bool
+
+Convenience function to handle the feedback a user see's when they enter invalid, incorrect, or correct code.
+Returns a bool as to whether their input was correct (true) or not (false).
+"""
 function user_experience(syntax_error, incorrect_answer)
     if syntax_error
         println(Crayon( foreground = :white, italics = true ), "🔧 Sorry it appears there is a syntax error in your code. Please try again!")
@@ -19,7 +25,12 @@ struct ExpressionEvaluator <: Evaluator
     answer
 end
 
-function (ee::ExpressionEvaluator)(userinput::String)
+"""
+    (ee::ExpressionEvaluator)(userinput::String)::Bool
+
+Functor for evaluating expression input's. Thinly wraps `evaluate(,,)`
+"""
+function (ee::ExpressionEvaluator)(userinput::String)::Bool
     (syntax_error, incorrect_answer) = evaluate(userinput, ee.variable, ee.answer)
     return user_experience(syntax_error, incorrect_answer)
 end
@@ -28,7 +39,12 @@ struct CommandEvaluator <: Evaluator
     answer
 end
 
-function (ce::CommandEvaluator)(userinput::String)
+"""
+    (ee::ExpressionEvaluator)(userinput::String)::Bool
+
+Functor for evaluating expression input's. Thinly wraps `evaluate(,)`.
+"""
+function (ce::CommandEvaluator)(userinput::String)::Bool
     (syntax_error, incorrect_answer) = evaluate(userinput, ce.answer)
     return user_experience(syntax_error, incorrect_answer)
 end

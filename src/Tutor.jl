@@ -5,6 +5,13 @@ struct Lesson
     hint::String
 end
 
+"""
+    Lesson(prompt::String, request::String, parser::Evaluator)
+
+Will create a Lesson instance without a hint. 
+Note: it is strongly preferred that Lesson's contain `hints` so please construct via 
+Lesson( prompt::String, request::String, parser::Evaluator, hint::String ) except when neccesary.
+"""
 Lesson(prompt::String, request::String, parser::Evaluator) = Lesson(prompt, request, parser, "")
 
 mutable struct Tutor
@@ -13,17 +20,32 @@ mutable struct Tutor
     lesson_plan::Vector{Lesson}
 end
 
+"""
+    display_prompt_and_request(t::Tutor)
+
+Displays a lesson prompt and requests an action from the user.
+"""
 function display_prompt_and_request(t::Tutor)
     active_lesson = t.lesson_plan[t.current_lesson]
     inform(active_lesson)
     request(active_lesson)
 end
 
+"""
+    display_hint(t::Tutor)
+
+Displays a hint pertaining to the users current lesson, if it exists. See `hint(lesson::Lesson)`
+"""
 function display_hint(t::Tutor)
     active_lesson = t.lesson_plan[t.current_lesson]
     hint(active_lesson)
 end
 
+"""
+    keywords(t, user_input)
+
+Assesses if the user has asked for help, hint, or some other invention specific to JuliaTutor.
+"""
 function keywords(t, user_input)
     used_keyword = false
     #ToDo:: strip whitespace, add more keywords?
@@ -37,8 +59,13 @@ function keywords(t, user_input)
     return used_keyword
 end
 
+"""
+    ( t::Tutor )( user_input::String )
+
+This is the parser, and lesson plan orchestration mechanism of Julia tutor. This functor progresses the user 
+through lessons and parsers their inputs.
+"""
 function ( t::Tutor )( user_input::String )
-    #TODO: Add cmd's for redisplaying prompt, clearing repl screen, hints?
     active_lesson = t.lesson_plan[ t.current_lesson ]
     if active_lesson.parser( user_input )
         if t.current_lesson < length(t.lesson_plan) 
@@ -46,10 +73,10 @@ function ( t::Tutor )( user_input::String )
             display_prompt_and_request( t )
         else
             println( Crayon(foreground = :green, bold = true),
-                    "\n Congratulations! \n You've completed this lesson. Care to try another? \n")
+                    "\n Congratulations! " * 
+                    "\n You've completed this lesson. Care to try another? \n")
             print(Crayon( foreground = :white, bold = false), "" )
             menu()
         end
     end
-    #return Meta.eval( Meta.parse(user_input) )
 end

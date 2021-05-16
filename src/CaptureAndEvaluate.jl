@@ -45,6 +45,11 @@ macro capture_stdstreams(expr)
     end
 end
 
+"""
+    evaluate(ui, truth)::Tuple{ Bool, Bool }
+
+Evaluates the output of a user's input against ground truth, and the variable declaration.
+"""
 function evaluate(ui, var, ans)::Tuple{ Bool, Bool }
     #try to run the users code
     syntax_error, incorrect_answer = false, false;
@@ -57,6 +62,11 @@ function evaluate(ui, var, ans)::Tuple{ Bool, Bool }
     return (syntax_error, incorrect_answer)
 end
 
+"""
+    evaluate(ui, truth)::Tuple{ Bool, Bool }
+
+Evaluates the output of a user's input against ground truth.
+"""
 function evaluate(ui, truth)::Tuple{ Bool, Bool }
     syntax_error, incorrect_answer = false, false;
     ui_ex = Meta.parse( ui )

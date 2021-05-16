@@ -17,9 +17,15 @@ module JuliaTutor
     include("Display.jl")
     #export greet, inform, request
     export help
+
     global julia_tutor_parser = Tutor("",0,[])
     export julia_tutor_parser
 
+    """
+        load_lesson(lesson_location::String)
+
+    reads a structured Lesson file and begins a Julia tutor REPL, parser, etc.
+    """
     function load_lesson(lesson_location::String)
         include( lesson_location )
 
@@ -34,13 +40,15 @@ module JuliaTutor
             if keywords(julia_tutor_parser, user_input)
                 return
             end
+            #Display the executed output of the users input
             io = IOBuffer()
             io_context = IOContext( io, :limit => true, :displaysize => (7, 70))
             show(io_context, "text/plain", Meta.eval(Meta.parse(user_input)) );
             println( String( take!( io ) ) )
+            #Parse and evaluate the users input
             julia_tutor_parser(user_input)
         end
-
+        #Instantiate a REPL
         global repl = initrepl(
             parser_closure, #ReplMaker doesn't allow functors
             prompt_text="julia tutor> ",
@@ -49,8 +57,9 @@ module JuliaTutor
             mode_name="tutor_mode",
             valid_input_checker=complete_julia
         )
+        #Enter the REPL without user approval
         ReplMaker.enter_mode!(Base.active_repl.mistate, repl)
-                
+        #Display the first lesson prompt
         display_prompt_and_request(julia_tutor_parser)
     end
     export load_lesson
