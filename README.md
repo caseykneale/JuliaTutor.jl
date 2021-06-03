@@ -25,5 +25,5 @@ menu()
    - The world is your oyster...
 
 ## Current "Design" (high-level)
-  - JuliaTutor.jl reads lessons in `/Lessons/` and displays a menu which allows users to interactively learn from.
+  - JuliaTutor.jl reads lessons in `/lessons/` and displays a menu which allows users to interactively learn from.
   - Lessons contain(see `HelloWorld.jl` for an example)
