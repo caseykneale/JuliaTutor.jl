@@ -5,7 +5,7 @@ using Crayons
 using DataStructures
 using Logging
 using ReplMaker
-using TerminalMenus
+using REPL.TerminalMenus
 
 # Exports
 export help
