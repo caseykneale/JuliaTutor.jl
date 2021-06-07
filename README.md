@@ -5,6 +5,8 @@
 [![Build Status](https://github.com/Humans-of-Julia/JuliaTutor.jl/workflows/CI/badge.svg)](https://github.com/Humans-of-Julia/JuliaTutor.jl/actions)
 [![codecov](https://codecov.io/gh/Humans-of-Julia/JuliaTutor.jl/branch/master/graph/badge.svg?token=loCmkn6V2y)](https://codecov.io/gh/Humans-of-Julia/JuliaTutor.jl)
 
+This project was originally written by [Dr. Casey Kneale](https://github.com/caseykneale), who allows the [Humans of Julia community](https://github.com/Humans-of-Julia), which they are a part of to maintain. This is a Community Project, and all contributions are valued. This project is [MIT Licensed](https://opensource.org/licenses/MIT).
+
 ## How to test drive
 
 ```
@@ -28,10 +30,3 @@ menu()
 ## Current "Design" (high-level)
   - JuliaTutor.jl reads lessons in `/lessons/` and displays a menu which allows users to interactively learn from.
   - Lessons contain(see `HelloWorld.jl` for an example)
-
-## Provenance
-
-The inception of this project was started by [Casey Kneale](https://github.com/caseykneale).
-Thanks to Casey's initial work, this package is now maintained by members of the [Humans of Julia community](https://github.com/Humans-of-Julia) and serves as a springboard for new Julia programmers, a powerful teaching aid, and a fun way to guide users through different aspects of the Julia ecosystem.
-This project falls under an [MIT License](https://opensource.org/licenses/MIT).
-
